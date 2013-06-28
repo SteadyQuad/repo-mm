@@ -6,9 +6,9 @@
 # myname: This scripts name.
 declare myname="${0##*/}"
 # gerrit_host: The gerrit host we can query to get the list of projects.
-declare gerrit_host
+declare gerrit_host="http://review.cyanogenmod.org"
 # git_host: The git url where the source can be downloaded.
-declare git_host
+declare git_host="http://github.com"
 # update_remote: If set to 1, repositories will get their remote updated to the
 # git_host before fetching.
 declare update_remote=0
@@ -85,7 +85,7 @@ fi
 
 ## Main loop
 # For each repository managed by the gerrit instance...
-for repo in $(curl -s "${gerrit_host:-http://review.cyanogenmod.org}/projects/?d" | \
+for repo in $(curl -s "${gerrit_host}/projects/?d" | \
     tail -n +2 | jshon -k | grep -v '\/\.' | sort); do
   # Ignore repositories that might possibly be discontinued.
   matchException "${repo}"
@@ -97,8 +97,8 @@ for repo in $(curl -s "${gerrit_host:-http://review.cyanogenmod.org}/projects/?d
     if [ -d "${repo}.git" ]; then
       pushd "${repo}.git/" 2>&1 > /dev/null
       if [ $update_remote -eq 1 ]; then
-        info "Updating remote to: ${git_host:-http://github.com}/${repo}.git"
-        git remote set-url origin "${git_host:-http://github.com}/${repo}.git"
+        info "Updating remote to: ${git_host}/${repo}.git"
+        git remote set-url origin "${git_host}/${repo}.git"
         [ $? -eq 0 ] || err "Failed to update remote. Exit code: $?"
       fi
       info "Fetching: ${repo}"
@@ -108,7 +108,7 @@ for repo in $(curl -s "${gerrit_host:-http://review.cyanogenmod.org}/projects/?d
     # Otherwise, clone a mirror.
     else
       info "Cloning: ${repo}"
-      git clone --mirror "${git_host:-http://github.com}/${repo}.git" "${repo}.git"
+      git clone --mirror "${git_host}/${repo}.git" "${repo}.git"
       [ $? -eq 0 ] || err "Failed to clone ${repo}. Exit code: $?"
     fi
   fi
