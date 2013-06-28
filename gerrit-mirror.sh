@@ -9,6 +9,9 @@ declare myname="${0##*/}"
 declare gerrit_host
 # git_host: The git url where the source can be downloaded.
 declare git_host
+# update_remote: If set to 1, repositories will get their remote updated to the
+# git_host before fetching.
+declare update_remote=0
 
 # exceptions: array: List of repositories to ignore.
 declare -a exceptions
@@ -93,6 +96,11 @@ for repo in $(curl -s "${gerrit_host:-http://review.cyanogenmod.org}/projects/?d
     # If we already have the repository, fetch all.
     if [ -d "${repo}.git" ]; then
       pushd "${repo}.git/" 2>&1 > /dev/null
+      if [ $update_remote -eq 1 ]; then
+        info "Updating remote to: ${git_host:-http://github.com}/${repo}.git"
+        git remote set-url origin "${git_host:-http://github.com}/${repo}.git"
+        [ $? -eq 0 ] || err "Failed to update remote. Exit code: $?"
+      fi
       info "Fetching: ${repo}"
       git fetch --all
       if [ "$?" != "0" ]; then
