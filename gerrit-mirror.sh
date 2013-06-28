@@ -33,19 +33,19 @@ usage()
 # info: Output an informational string.
 info()
 {
-  echo "${myname} Info: ${@}"
+  echo -ne "${myname} Info: ${@}\n"
 }
 
 # warn: Output a warning string.
 warn()
 {
-  echo "${myname} Warning: ${@}"
+  echo -ne "${myname} Warning: ${@}\n"
 }
 
 # err: Output an error string and exit with 2.
 err()
 {
-  echo "${myname} Error: ${@}"
+  echo -ne "${myname} Error: ${@}\n"
   exit 2
 }
 
@@ -103,21 +103,14 @@ for repo in $(curl -s "${gerrit_host:-http://review.cyanogenmod.org}/projects/?d
       fi
       info "Fetching: ${repo}"
       git fetch --all
-      if [ "$?" != "0" ]; then
-        err "fetch failed"
-      else
-        info "Fetched ${repo} successfully"
-      fi
+      [ $? -eq 0 ] || err "Failed to fetch ${repo}. Exit code: $?"
       popd 2>&1 > /dev/null
     # Otherwise, clone a mirror.
     else
       info "Cloning: ${repo}"
       git clone --mirror "${git_host:-http://github.com}/${repo}.git" "${repo}.git"
-      if [ "$?" != "0" ]; then
-        err "clone failed"
-      else
-        info "Cloned ${repo} successfully"
-      fi
+      [ $? -eq 0 ] || err "Failed to clone ${repo}. Exit code: $?"
     fi
   fi
+  echo ""
 done
