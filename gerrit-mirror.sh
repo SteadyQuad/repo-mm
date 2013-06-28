@@ -12,10 +12,9 @@ declare git_host
 
 # exceptions: array: List of repositories to ignore.
 declare -a exceptions
-#NOTE: using the repository supplied by gerrit seems to be a better choice.
-#exceptions+=("CyanogenMod/CMStatsServer")
-#exceptions+=("CyanogenMod/android_device_htc_m7")
-#exceptions+=("CyanogenMod/android_device_htc_m7wls")
+exceptions+=("CyanogenMod/CMStatsServer")
+exceptions+=("CyanogenMod/android_device_htc_m7")
+exceptions+=("CyanogenMod/android_device_htc_m7wls")
 
 ## Utility Functions
 # usage: Display usage about the script.
@@ -23,7 +22,7 @@ usage()
 {
   echo "Usage: ${myname} [-h|--help] <gerrit_host> <git_host>"
   echo "  gerrit_host: default: http://review.cyanogenmod.org"
-  echo "  git_host: default: same as gerrit_host"
+  echo "  git_host: default: same as http://github.com"
   echo "  -h | --help: display usage (this)"
   exit 1
 }
@@ -105,7 +104,7 @@ for repo in $(curl -s "${gerrit_host:-http://review.cyanogenmod.org}/projects/?d
     # Otherwise, clone a mirror.
     else
       info "Cloning: ${repo}"
-      git clone --mirror "${git_host:-http://review.cyanogenmod.org}/${repo}.git" "${repo}.git"
+      git clone --mirror "${git_host:-http://github.com}/${repo}.git" "${repo}.git"
       if [ "$?" != "0" ]; then
         err "clone failed"
       else
