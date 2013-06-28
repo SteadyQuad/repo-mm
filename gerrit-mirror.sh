@@ -89,7 +89,7 @@ fi
 # For each repository managed by the gerrit instance...
 for repo in $(curl -s "${gerrit_host}/projects/?d" | tail -n +2 | \
 	${scriptdir}/JSON.sh/JSON.sh -b | cut -d'"' -f2 | \
-	grep -v '\/\.'| sort); do
+	grep -v '\/\.'| sort -u); do
   # Ignore repositories that might possibly be discontinued.
   matchException "${repo}"
   if [ $? -eq 1 ]; then
