@@ -24,8 +24,8 @@ exceptions+=("CyanogenMod/android_device_htc_m7wls")
 usage()
 {
   echo "Usage: ${myname} [-h|--help] <gerrit_host> <git_host>"
-  echo "  gerrit_host: default: http://review.cyanogenmod.org"
-  echo "  git_host: default: same as http://github.com"
+  echo "  gerrit_host: default: ${gerrit_host}"
+  echo "  git_host: default: ${git_host}"
   echo "  -h | --help: display usage (this)"
   exit 1
 }
@@ -69,7 +69,7 @@ trap "err killed by signal" SIGINT SIGTERM SIGQUIT
 
 ## Script Argument Processing
 # The accepted number of arguments is either 0 1 or 2.
-# 0: fall through to defaults of http://review.cyanogenmod.org git://github.com
+# 0: fall through to defaults of http://review.cyanogenmod.org http://github.com
 # 1: usage
 # 2: Defined your own gerrit_host and git_host.
 if [ $# -ne 0 ]; then
