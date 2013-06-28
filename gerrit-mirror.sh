@@ -5,6 +5,8 @@
 ## Variables
 # myname: This scripts name.
 declare myname="${0##*/}"
+# scriptdir: The directory this script lives in.
+declare scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # gerrit_host: The gerrit host we can query to get the list of projects.
 declare gerrit_host="http://review.cyanogenmod.org"
 # git_host: The git url where the source can be downloaded.
@@ -85,8 +87,9 @@ fi
 
 ## Main loop
 # For each repository managed by the gerrit instance...
-for repo in $(curl -s "${gerrit_host}/projects/?d" | \
-    tail -n +2 | jshon -k | grep -v '\/\.' | sort); do
+for repo in $(curl -s "${gerrit_host}/projects/?d" | tail -n +2 | \
+	${scriptdir}/JSON.sh/JSON.sh -b | cut -d'"' -f2 | \
+	grep -v '\/\.'| sort); do
   # Ignore repositories that might possibly be discontinued.
   matchException "${repo}"
   if [ $? -eq 1 ]; then
