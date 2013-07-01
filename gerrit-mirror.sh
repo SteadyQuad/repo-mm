@@ -11,9 +11,6 @@ declare scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 declare gerrit_host="http://review.cyanogenmod.org"
 # git_host: The git url where the source can be downloaded.
 declare git_host="https://github.com"
-# update_remote: If set to 1, repositories will get their remote updated to the
-# git_host before fetching.
-declare update_remote=0
 
 # exceptions: array: List of repositories to ignore.
 declare -a exceptions
@@ -86,35 +83,39 @@ if [ $# -ne 0 ]; then
   fi
 fi
 
-## Main loop
+## Main
+
+# First clone repositories we don't have, then `git fetch --all` the ones we do.
+
 # For each repository managed by the gerrit instance...
-for repo in $(curl -s "${gerrit_host}/projects/?d" | tail -n +2 | \
-	${scriptdir}/JSON.sh/JSON.sh -b | cut -d'"' -f2 | \
-	grep -v '\/\.'| sort -u); do
+for repo in $(curl -s "${gerrit_host}/projects/?d" | \
+              tail -n +2 | \
+              ${scriptdir}/JSON.sh/JSON.sh -b | \
+              cut -d'"' -f2 | \
+              grep -v '\/\.'| sort -u); do
   # Ignore repositories that might possibly be discontinued.
   matchException "${repo}"
   if [ $? -eq 1 ]; then
     warn "Skipping exception: ${repo}.git"
     continue
   else
-    # If we already have the repository, fetch all.
-    if [ -d "${repo}.git" ]; then
-      pushd "${repo}.git/" 2>&1 > /dev/null
-      if [ $update_remote -eq 1 ]; then
-        info "Updating remote to: ${git_host}/${repo}.git"
-        git remote set-url origin "${git_host}/${repo}.git"
-        [ $? -eq 0 ] || err "Failed to update remote. Exit code: $?"
-      fi
-      info "Fetching: ${repo}"
-      git fetch --all
-      [ $? -eq 0 ] || err "Failed to fetch ${repo}. Exit code: $?"
-      popd 2>&1 > /dev/null
-    # Otherwise, clone a mirror.
-    else
+    # Clone repositories we do not have.
+    if [ ! -d "${repo}.git" ]; then
       info "Cloning: ${repo}"
       git clone --mirror "${git_host}/${repo}.git" "${repo}.git"
       [ $? -eq 0 ] || err "Failed to clone ${repo}. Exit code: $?"
     fi
+    echo ""
   fi
+done
+
+# Fetch the ones we do have.
+# This needs to be broken out into a separate command.
+for repo in $(find $(pwd) -type d -name '*\.git'); do
+  pushd "${repo}" 2>&1 > /dev/null
+  info "Fetching in: ${repo}.git"
+  git fetch --all
+  [ $? -eq 0 ] || err "Failed to fetch ${repo}.git. Exit code: $?"
+  popd 2>&1 > /dev/null
   echo ""
 done
