@@ -113,9 +113,9 @@ done
 # This needs to be broken out into a separate command.
 for repo in $(find $(pwd) -type d -name '*\.git'); do
   pushd "${repo}" 2>&1 > /dev/null
-  info "Fetching in: ${repo}.git"
+  info "Fetching in: ${repo}"
   git fetch --all
-  [ $? -eq 0 ] || err "Failed to fetch ${repo}.git. Exit code: $?"
+  [ $? -eq 0 ] || err "Failed to fetch ${repo}. Exit code: $?"
   popd 2>&1 > /dev/null
   echo ""
 done
