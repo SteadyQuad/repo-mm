@@ -10,7 +10,7 @@ declare scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # gerrit_host: The gerrit host we can query to get the list of projects.
 declare gerrit_host="http://review.cyanogenmod.org"
 # git_host: The git url where the source can be downloaded.
-declare git_host="http://github.com"
+declare git_host="https://github.com"
 # update_remote: If set to 1, repositories will get their remote updated to the
 # git_host before fetching.
 declare update_remote=0
@@ -72,7 +72,7 @@ trap "err killed by signal" SIGINT SIGTERM SIGQUIT
 
 ## Script Argument Processing
 # The accepted number of arguments is either 0 1 or 2.
-# 0: fall through to defaults of http://review.cyanogenmod.org http://github.com
+# 0: fall through to defaults of http://review.cyanogenmod.org https://github.com
 # 1: usage
 # 2: Defined your own gerrit_host and git_host.
 if [ $# -ne 0 ]; then
