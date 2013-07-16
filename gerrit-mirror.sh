@@ -17,7 +17,6 @@ declare -a exceptions
 exceptions+=("CyanogenMod/CMStatsServer")
 exceptions+=("CyanogenMod/android_device_htc_m7")
 exceptions+=("CyanogenMod/android_device_htc_m7wls")
-exceptions+=("CyanogenMod/android_kernel_samsung_aries")
 
 ## Utility Functions
 # usage: Display usage about the script.
