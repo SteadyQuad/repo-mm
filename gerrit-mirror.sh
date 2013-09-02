@@ -17,6 +17,10 @@ declare -a exceptions
 exceptions+=("CyanogenMod/CMStatsServer")
 exceptions+=("CyanogenMod/android_device_htc_m7")
 exceptions+=("CyanogenMod/android_device_htc_m7wls")
+exceptions+=("All-CM-Apps-Projects")
+exceptions+=("android_external_Focal")
+exceptions+=("android_packages_apps_Focal")
+exceptions+=("FastPowerOn")
 
 ## Utility Functions
 # usage: Display usage about the script.
