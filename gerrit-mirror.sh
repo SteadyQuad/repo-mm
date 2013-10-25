@@ -101,6 +101,7 @@ for repo in $(curl -s "${gerrit_host}/projects/?d" | \
   matchException "${repo}"
   if [ $? -eq 1 ]; then
     warn "Skipping exception: ${repo}.git"
+    echo ""
     continue
   else
     # Clone repositories we do not have.
@@ -108,8 +109,8 @@ for repo in $(curl -s "${gerrit_host}/projects/?d" | \
       info "Cloning: ${repo}"
       git clone --mirror "${git_host}/${repo}.git" "${repo}.git"
       [ $? -eq 0 ] || err "Failed to clone ${repo}. Exit code: $?"
+      echo ""
     fi
-    echo ""
   fi
 done
 
