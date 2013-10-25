@@ -19,6 +19,7 @@ exceptions+=("CyanogenMod/android_device_htc_m7")
 exceptions+=("CyanogenMod/android_device_htc_m7wls")
 exceptions+=("All-CM-Apps-Projects")
 exceptions+=("android_external_Focal")
+exceptions+=("CyanogenMod/android_external_Focal")
 exceptions+=("android_packages_apps_Focal")
 exceptions+=("FastPowerOn")
 
