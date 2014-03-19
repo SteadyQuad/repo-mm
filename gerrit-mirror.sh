@@ -11,6 +11,8 @@ declare scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 declare gerrit_host="http://review.cyanogenmod.org"
 # git_host: The git url where the source can be downloaded.
 declare git_host="https://github.com"
+# maxjobs: The maximum number of jobs for 'git fetch' and 'git clone'
+declare maxjobs=10
 
 # exceptions: array: List of repositories to ignore.
 declare -a exceptions
@@ -126,12 +128,18 @@ for repo in $(curl -s "${gerrit_host}/projects/?d" | \
 done
 
 # Fetch the ones we do have.
-# This needs to be broken out into a separate command.
-for repo in $(find $(pwd) -type d -name '*\.git'); do
-  pushd "${repo}" 2>&1 > /dev/null
-  info "Fetching in: ${repo}"
-  git fetch --all
-  [ $? -eq 0 ] || err "Failed to fetch ${repo}. Exit code: $?"
+fetchUpdates ()
+{
+  local dir="${@}"
+  pushd "${dir}" 2>&1 > /dev/null
+  info "Fetching in: ${dir}"
+  git fetch --all || err "Failed to 'git fetch --all' in ${dir}. Exit code: $?"
+  git fetch --tags || err "Failed to 'git fetch --tags' in ${dir}. Exit code: $?"
+  git gc --auto 2>&1 > /dev/null &
   popd 2>&1 > /dev/null
   echo ""
-done
+}
+export -f info
+export -f err
+export -f fetchUpdates
+find $(pwd) -type d -name '*\.git' -print0 | xargs -0 -i --max-args=1 --max-procs=${maxjobs} bash -c 'fetchUpdates $@' _ {}
