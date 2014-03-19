@@ -22,6 +22,17 @@ exceptions+=("android_external_Focal")
 exceptions+=("CyanogenMod/android_external_Focal")
 exceptions+=("android_packages_apps_Focal")
 exceptions+=("FastPowerOn")
+exceptions+=("CyanogenMod/android_external_wpa_supplicant_derp")
+exceptions+=("CyanogenMod/android_packages_apps_Focal")
+exceptions+=("CyanogenMod/ctso_supplicant")
+exceptions+=("CyanogenMod/android_kernel_lge_v909")
+exceptions+=("CyanogenMod/android_device_samsung_hlte-common")
+exceptions+=("CyanogenMod/android_device_samsung_hltespr")
+exceptions+=("CyanogenMod/android_device_samsung_hltevzw")
+exceptions+=("CyanogenMod/android_device_samsung_hltetmo")
+exceptions+=("CyanogenMod/android_device_samsung_hltecan")
+exceptions+=("CyanogenMod/android_device_samsung_hltexx")
+exceptions+=("CyanogenMod/android_device_sony_lotus")
 
 ## Utility Functions
 # usage: Display usage about the script.
