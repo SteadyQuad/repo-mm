@@ -12,7 +12,7 @@ declare gerrit_host="http://review.cyanogenmod.org"
 # git_host: The git url where the source can be downloaded.
 declare git_host="https://github.com"
 # maxjobs: The maximum number of jobs for 'git fetch' and 'git clone'
-declare maxjobs=10
+declare maxjobs=4
 
 # exceptions: array: List of repositories to ignore.
 declare -a exceptions
