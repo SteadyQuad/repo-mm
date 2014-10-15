@@ -16,25 +16,20 @@ declare maxjobs=4
 
 # exceptions: array: List of repositories to ignore.
 declare -a exceptions
-exceptions+=("CyanogenMod/CMStatsServer")
-exceptions+=("CyanogenMod/android_device_htc_m7")
-exceptions+=("CyanogenMod/android_device_htc_m7wls")
 exceptions+=("All-CM-Apps-Projects")
-exceptions+=("android_external_Focal")
-exceptions+=("CyanogenMod/android_external_Focal")
-exceptions+=("android_packages_apps_Focal")
-exceptions+=("FastPowerOn")
-exceptions+=("CyanogenMod/android_external_wpa_supplicant_derp")
-exceptions+=("CyanogenMod/android_packages_apps_Focal")
-exceptions+=("CyanogenMod/ctso_supplicant")
-exceptions+=("CyanogenMod/android_kernel_lge_v909")
-exceptions+=("CyanogenMod/android_device_samsung_hlte-common")
-exceptions+=("CyanogenMod/android_device_samsung_hltespr")
-exceptions+=("CyanogenMod/android_device_samsung_hltevzw")
-exceptions+=("CyanogenMod/android_device_samsung_hltetmo")
+exceptions+=("android_packages_wallpapers_PhotoPhase")
+exceptions+=("CyanogenMod/android_device_htc_m7wls")
 exceptions+=("CyanogenMod/android_device_samsung_hltecan")
+exceptions+=("CyanogenMod/android_device_samsung_hltetmo")
 exceptions+=("CyanogenMod/android_device_samsung_hltexx")
 exceptions+=("CyanogenMod/android_device_sony_lotus")
+exceptions+=("CyanogenMod/android_external_Focal")
+exceptions+=("CyanogenMod/android_external_wpa_supplicant_derp")
+exceptions+=("CyanogenMod/android_kernel_lge_v909")
+exceptions+=("CyanogenMod/android_packages_apps_Focal")
+exceptions+=("CyanogenMod/CMStatsServer")
+exceptions+=("CyanogenMod/ctso_supplicant")
+exceptions+=("FastPowerOn")
 
 ## Utility Functions
 # usage: Display usage about the script.
